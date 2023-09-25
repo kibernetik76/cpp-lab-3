@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h> // malloc - динамическое выделение памяти
 #include <locale.h>
 int minimum(int a, int b) { // функция для поиска минимального из двух чисел
 	if (a < b) {
@@ -10,7 +9,7 @@ int minimum(int a, int b) { // функция для поиска минимал
 	}
 
 }
-int rec(int i, int n, int Masha, int Petr, int* massiv) { // функция с рекурсией
+int rec(int i, int n, int Masha, int Petr, long *massiv) { // функция с рекурсией
     if (i == n) { // выход из рекурсии
         if (Masha < Petr)
             return Petr - Masha;
@@ -18,21 +17,19 @@ int rec(int i, int n, int Masha, int Petr, int* massiv) { // функция с �
             return Masha - Petr;
 
     }
-    int a = rec(i + 1, n, Masha + massiv[i], Petr, massiv);
-    int b = rec(i + 1, n, Masha, Petr + massiv[i], massiv);
-    return minimum(a, b); //следующий шаг рекурсии
+    return minimum(rec(i + 1, n, Masha + massiv[i], Petr, massiv), rec(i + 1, n, Masha, Petr + massiv[i], massiv)); //следующий шаг рекурсии
 }
 int main() {
     setlocale(LC_ALL, "Rus");// подключение русского языка
     int i, m, n; // задаем переменные (вспомогательная, шрамовки чашек, количество чашек)
 
     printf("Введите число чашек: ");
-    scanf("%i", &n);
+    scanf_s("%i", &n);
     printf("Введите грамовки чашек: \n");
-    int* massiv = (int*)malloc(n * sizeof(int));// sizeoff показывает сколько бйтов нужно для хранения, в данном случае, типа int
+    long *massiv = new long[n];
 
     for (i = 0; i < n; i++) { // заполняем массив
-        scanf("%i", &m);
+        scanf_s("%i", &m);
         massiv[i] = m;
     }
 
